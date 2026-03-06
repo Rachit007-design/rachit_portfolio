@@ -1,0 +1,444 @@
+/* ============================================
+   VHS / CRT / RETRO-FUTURISTIC EFFECTS LAYER
+   ============================================ */
+
+/* --- CRT Scanlines Overlay --- */
+.scanlines-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    pointer-events: none;
+    background: repeating-linear-gradient(to bottom,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.03) 2px,
+            rgba(0, 0, 0, 0.03) 4px);
+    opacity: 0.35;
+}
+
+/* --- CRT Vignette (dark edges like old monitors) --- */
+.crt-vignette {
+    position: fixed;
+    inset: 0;
+    z-index: 9997;
+    pointer-events: none;
+    background: radial-gradient(ellipse 85% 80% at 50% 50%,
+            transparent 50%,
+            rgba(0, 0, 0, 0.2) 100%);
+}
+
+/* --- VHS Tracking Distortion Bar --- */
+.vhs-tracking {
+    position: fixed;
+    left: 0;
+    right: 0;
+    height: 3px;
+    z-index: 9999;
+    pointer-events: none;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(59, 130, 246, 0.15) 20%,
+            rgba(6, 182, 212, 0.1) 40%,
+            rgba(255, 255, 255, 0.06) 60%,
+            transparent 100%);
+    animation: vhs-tracking-move 8s linear infinite;
+    opacity: 0.7;
+}
+
+@keyframes vhs-tracking-move {
+    0% {
+        top: -3px;
+    }
+
+    100% {
+        top: 100vh;
+    }
+}
+
+/* --- VHS Flicker on Hero (first load only) --- */
+.hero {
+    animation: vhs-flicker-intro 1.8s ease-out forwards;
+}
+
+@keyframes vhs-flicker-intro {
+    0% {
+        opacity: 0.4;
+        filter: brightness(1.3) saturate(0.5);
+    }
+
+    5% {
+        opacity: 1;
+        filter: brightness(1) saturate(1);
+    }
+
+    8% {
+        opacity: 0.6;
+        filter: brightness(1.5) saturate(0.3);
+    }
+
+    12% {
+        opacity: 1;
+        filter: brightness(1) saturate(0.9);
+    }
+
+    15% {
+        opacity: 0.85;
+        filter: brightness(1.1) saturate(0.7);
+    }
+
+    20% {
+        opacity: 1;
+        filter: brightness(1) saturate(1);
+    }
+
+    100% {
+        opacity: 1;
+        filter: brightness(1) saturate(1);
+    }
+}
+
+/* --- Hero Title Glow --- */
+.hero-title {
+    text-shadow:
+        0 0 40px rgba(59, 130, 246, 0.15),
+        0 0 80px rgba(59, 130, 246, 0.08);
+}
+
+/* --- VHS Glitch Text Effect (chromatic aberration via pseudo-elements) --- */
+.vhs-glitch-text {
+    position: relative;
+}
+
+.vhs-glitch-text::before,
+.vhs-glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    /* Override the text fill for pseudo elements */
+    -webkit-text-fill-color: initial;
+    -webkit-text-stroke: 0;
+}
+
+.vhs-glitch-text::before {
+    color: rgba(255, 0, 80, 0.5);
+    z-index: -1;
+}
+
+.vhs-glitch-text::after {
+    color: rgba(6, 182, 212, 0.5);
+    z-index: -1;
+}
+
+/* On hover: subtle RGB channel separation */
+.vhs-glitch-text:hover::before {
+    opacity: 0.6;
+    transform: translate(-2px, 1px);
+}
+
+.vhs-glitch-text:hover::after {
+    opacity: 0.6;
+    transform: translate(2px, -1px);
+}
+
+/* --- Glass Card Grain Texture (inner analog static) --- */
+.glass-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 100px 100px;
+    opacity: 0.015;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.3s;
+}
+
+/* Reduce grain on hover for readability */
+.glass-card:hover::before {
+    opacity: 0.008;
+}
+
+/* Brighten text on card hover for readability */
+.glass-card:hover .service-title,
+.glass-card:hover .service-desc,
+.glass-card:hover .skill-name,
+.glass-card:hover .skill-cat-title,
+.glass-card:hover .timeline-role,
+.glass-card:hover .timeline-list li {
+    color: var(--color-white);
+}
+
+/* --- Glitch Hover on Glass Cards --- */
+.glass-card:hover {
+    animation: card-glitch-flicker 0.4s ease-out;
+}
+
+@keyframes card-glitch-flicker {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    10% {
+        transform: translate(-1px, 0);
+    }
+
+    20% {
+        transform: translate(1px, 0);
+    }
+
+    30% {
+        transform: translate(0, -1px);
+    }
+
+    40% {
+        transform: translate(-1px, 1px);
+    }
+
+    50% {
+        transform: translate(1px, 0);
+    }
+
+    60% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+/* --- Section Transition: Horizontal Glitch Line --- */
+.section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(59, 130, 246, 0.2) 15%,
+            rgba(6, 182, 212, 0.15) 30%,
+            rgba(255, 255, 255, 0.04) 50%,
+            rgba(6, 182, 212, 0.15) 70%,
+            rgba(59, 130, 246, 0.2) 85%,
+            transparent 100%);
+    animation: glitch-line-shift 6s ease-in-out infinite alternate;
+}
+
+@keyframes glitch-line-shift {
+    0% {
+        opacity: 0.5;
+        transform: scaleX(0.8) translateX(-5%);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scaleX(1) translateX(0);
+    }
+
+    100% {
+        opacity: 0.5;
+        transform: scaleX(0.8) translateX(5%);
+    }
+}
+
+/* --- RGB Split on Interactive Elements (buttons, contact items) --- */
+.btn:hover {
+    text-shadow:
+        -1px 0 rgba(255, 0, 80, 0.3),
+        1px 0 rgba(6, 182, 212, 0.3);
+}
+
+.contact-item:hover {
+    text-shadow:
+        -1px 0 rgba(255, 0, 80, 0.2),
+        1px 0 rgba(6, 182, 212, 0.2);
+}
+
+/* --- Warped Gradient Effect on Hero --- */
+.hero-gradient {
+    background:
+        radial-gradient(ellipse 90% 70% at 50% 0%, rgba(59, 130, 246, 0.15), transparent 55%),
+        radial-gradient(ellipse 50% 60% at 85% 25%, rgba(6, 182, 212, 0.08), transparent 50%),
+        radial-gradient(ellipse 60% 45% at 15% 75%, rgba(59, 130, 246, 0.08), transparent 50%),
+        radial-gradient(ellipse 100% 100% at 50% 50%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.15) 100%) !important;
+    filter: contrast(1.1) saturate(0.85);
+}
+
+/* --- VHS Analog Glow on Section Numbers --- */
+.section-number {
+    text-shadow:
+        0 0 6px rgba(59, 130, 246, 0.4),
+        0 0 20px rgba(59, 130, 246, 0.15);
+}
+
+/* --- CRT Flicker on Stat Numbers --- */
+.stat-number {
+    text-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+    animation: crt-stat-flicker 4s ease-in-out infinite;
+}
+
+@keyframes crt-stat-flicker {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 1;
+    }
+
+    93% {
+        opacity: 0.85;
+    }
+
+    94% {
+        opacity: 1;
+    }
+
+    96% {
+        opacity: 0.9;
+    }
+
+    97% {
+        opacity: 1;
+    }
+}
+
+/* --- Analog Glow on Skill Glow Dots --- */
+.skill-glow {
+    box-shadow:
+        0 0 8px rgba(6, 182, 212, 0.4),
+        0 0 2px rgba(255, 0, 80, 0.15) !important;
+}
+
+/* --- Service Icon CRT Glow --- */
+.service-icon {
+    filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.25));
+}
+
+/* --- Mockup Screens: CRT Inner Glow --- */
+.mockup-screen {
+    box-shadow:
+        inset 0 0 30px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0 0 40px rgba(59, 130, 246, 0.06) !important;
+}
+
+/* --- VHS Timestamp Style for Timeline Dates --- */
+.timeline-date {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    letter-spacing: 0.08em;
+    text-shadow: 0 0 4px rgba(59, 130, 246, 0.3);
+}
+
+/* --- Contact Heading CRT Glow --- */
+.contact-heading {
+    font-family: var(--font-heading);
+    font-size: clamp(1.4rem, 3vw, 2.4rem);
+    white-space: nowrap;
+    text-shadow:
+        0 0 30px rgba(59, 130, 246, 0.1),
+        0 0 60px rgba(59, 130, 246, 0.05);
+}
+
+/* --- Subtle Desaturation Global Filter --- */
+body {
+    image-rendering: auto;
+}
+
+/* --- Badge Analog Look --- */
+.hero-badge {
+    border-color: rgba(59, 130, 246, 0.2) !important;
+    text-shadow: 0 0 4px rgba(59, 130, 246, 0.2);
+}
+
+.badge-dot {
+    box-shadow: 0 0 4px rgba(34, 197, 94, 0.5), 0 0 1px rgba(255, 0, 80, 0.2) !important;
+}
+
+/* --- Footer Analog Treatment --- */
+.footer {
+    border-top-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+/* --- Audio Toggle Button --- */
+.audio-toggle {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 9995;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    background: rgba(10, 10, 11, 0.8);
+    backdrop-filter: blur(10px);
+    color: var(--color-accent);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
+}
+
+.audio-toggle:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.2);
+    transform: scale(1.1);
+}
+
+.audio-toggle.playing {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.25);
+    animation: audio-pulse 2s ease-in-out infinite;
+}
+
+@keyframes audio-pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+    }
+
+    50% {
+        box-shadow: 0 0 30px rgba(59, 130, 246, 0.35);
+    }
+}
+
+/* --- Reduced motion preference --- */
+@media (prefers-reduced-motion: reduce) {
+
+    .scanlines-overlay,
+    .vhs-tracking,
+    .grain-overlay {
+        animation: none !important;
+    }
+
+    .hero {
+        animation: none !important;
+    }
+
+    .vhs-glitch-text::before,
+    .vhs-glitch-text::after {
+        display: none;
+    }
+
+    .glass-card:hover {
+        animation: none !important;
+    }
+}

@@ -1,0 +1,405 @@
+/* ============================================
+   ANIMATIONS & MICRO-INTERACTIONS
+   ============================================ */
+
+/* --- Scroll Reveal Base --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered delays for children */
+.reveal.delay-1 {
+    transition-delay: 0.1s;
+}
+
+.reveal.delay-2 {
+    transition-delay: 0.2s;
+}
+
+.reveal.delay-3 {
+    transition-delay: 0.3s;
+}
+
+.reveal.delay-4 {
+    transition-delay: 0.4s;
+}
+
+.reveal.delay-5 {
+    transition-delay: 0.5s;
+}
+
+/* --- Hero Animations --- */
+.hero .reveal:nth-child(1) {
+    transition-delay: 0.2s;
+}
+
+.hero .reveal:nth-child(2) {
+    transition-delay: 0.4s;
+}
+
+.hero .reveal:nth-child(3) {
+    transition-delay: 0.6s;
+}
+
+.hero .reveal:nth-child(4) {
+    transition-delay: 0.8s;
+}
+
+.hero .reveal:nth-child(5) {
+    transition-delay: 1.0s;
+}
+
+.hero .reveal:nth-child(6) {
+    transition-delay: 1.2s;
+}
+
+/* Hero parallax motion */
+.hero-bg {
+    transition: transform 0.1s linear;
+}
+
+/* --- Timeline Stagger --- */
+.timeline .timeline-item.reveal:nth-child(1) {
+    transition-delay: 0.15s;
+}
+
+.timeline .timeline-item.reveal:nth-child(2) {
+    transition-delay: 0.3s;
+}
+
+.timeline .timeline-item.reveal:nth-child(3) {
+    transition-delay: 0.45s;
+}
+
+/* --- Service Cards Stagger --- */
+.services-grid .service-card.reveal:nth-child(1) {
+    transition-delay: 0.1s;
+}
+
+.services-grid .service-card.reveal:nth-child(2) {
+    transition-delay: 0.2s;
+}
+
+.services-grid .service-card.reveal:nth-child(3) {
+    transition-delay: 0.3s;
+}
+
+.services-grid .service-card.reveal:nth-child(4) {
+    transition-delay: 0.4s;
+}
+
+.services-grid .service-card.reveal:nth-child(5) {
+    transition-delay: 0.5s;
+}
+
+.services-grid .service-card.reveal:nth-child(6) {
+    transition-delay: 0.6s;
+}
+
+/* --- Service Card Hover Glow --- */
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            rgba(108, 99, 255, 0.06),
+            transparent 40%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    z-index: 0;
+}
+
+.service-card:hover::before {
+    opacity: 1;
+}
+
+.service-card>* {
+    position: relative;
+    z-index: 1;
+}
+
+/* --- Skill Bar Animation --- */
+.skill-fill.animate {
+    transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Skill glow pulse */
+.skill-glow {
+    animation: glow-pulse 3s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 8px rgba(0, 212, 255, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+    }
+}
+
+/* --- Button Ripple Effect --- */
+.btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 60%);
+    transform: scale(0);
+    opacity: 0;
+    transition: transform 0.6s, opacity 0.4s;
+}
+
+.btn:active::before {
+    transform: scale(2.5);
+    opacity: 1;
+    transition: transform 0s, opacity 0s;
+}
+
+/* --- Marker Dot Pulse --- */
+.marker-dot::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid var(--color-accent);
+    opacity: 0;
+    animation: marker-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes marker-pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* --- Glass Card Hover Shimmer --- */
+.glass-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg,
+            transparent 30%,
+            rgba(255, 255, 255, 0.02) 50%,
+            transparent 70%);
+    transform: rotate(45deg) translateY(100%);
+    transition: transform 0.8s;
+    pointer-events: none;
+}
+
+.glass-card:hover::after {
+    transform: rotate(45deg) translateY(-100%);
+}
+
+/* --- Contact Item Hover --- */
+.contact-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-lg);
+    background: radial-gradient(circle at center, rgba(108, 99, 255, 0.05), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.contact-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-item:hover::before {
+    opacity: 1;
+}
+
+/* --- Floating Particles (using box-shadows) --- */
+.hero::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    top: 20%;
+    left: 10%;
+    background: transparent;
+    box-shadow:
+        0 0 2px 1px rgba(108, 99, 255, 0.4),
+        200px 100px 2px 1px rgba(0, 212, 255, 0.3),
+        400px 200px 2px 1px rgba(108, 99, 255, 0.3),
+        600px -50px 2px 1px rgba(0, 212, 255, 0.2),
+        100px 300px 2px 1px rgba(108, 99, 255, 0.25),
+        800px 100px 2px 1px rgba(0, 212, 255, 0.3),
+        300px -100px 2px 1px rgba(108, 99, 255, 0.2),
+        700px 250px 2px 1px rgba(0, 212, 255, 0.2),
+        500px 50px 2px 1px rgba(108, 99, 255, 0.3),
+        150px -200px 2px 1px rgba(0, 212, 255, 0.25);
+    animation: float-particles 20s linear infinite;
+    z-index: 0;
+}
+
+@keyframes float-particles {
+    0% {
+        transform: translateY(0) translateX(0);
+    }
+
+    25% {
+        transform: translateY(-30px) translateX(15px);
+    }
+
+    50% {
+        transform: translateY(-10px) translateX(-10px);
+    }
+
+    75% {
+        transform: translateY(-40px) translateX(20px);
+    }
+
+    100% {
+        transform: translateY(0) translateX(0);
+    }
+}
+
+/* --- Grain Animation --- */
+.grain-overlay {
+    animation: grain-shift 0.5s steps(10) infinite;
+}
+
+@keyframes grain-shift {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    10% {
+        transform: translate(-5%, -10%);
+    }
+
+    20% {
+        transform: translate(-15%, 5%);
+    }
+
+    30% {
+        transform: translate(7%, -25%);
+    }
+
+    40% {
+        transform: translate(-5%, 25%);
+    }
+
+    50% {
+        transform: translate(-15%, 10%);
+    }
+
+    60% {
+        transform: translate(15%, 0%);
+    }
+
+    70% {
+        transform: translate(0%, 15%);
+    }
+
+    80% {
+        transform: translate(3%, 35%);
+    }
+
+    90% {
+        transform: translate(-10%, 10%);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+/* --- Section Divider Gradient --- */
+.section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    max-width: 600px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-border), transparent);
+}
+
+.contact::after,
+.footer::after {
+    display: none;
+}
+
+/* --- Smooth Number Counter --- */
+.stat-number {
+    display: inline-block;
+    min-width: 2ch;
+}
+
+/* --- Scroll-triggered Image/Section Parallax --- */
+[data-parallax] {
+    will-change: transform;
+}
+
+/* --- Focus Styles (Accessibility) --- */
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+/* --- Smooth page appearance --- */
+body {
+    animation: page-fade-in 0.8s ease-out;
+}
+
+@keyframes page-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* --- Loading state for skill bars --- */
+.skill-category.visible .skill-fill {
+    transition-delay: 0.3s;
+}
+
+/* --- Mobile overlay bg --- */
+.nav-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s;
+}
+
+.nav-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
